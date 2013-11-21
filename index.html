@@ -1,0 +1,155 @@
+<html>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <head>
+        <title>Project 2</title>
+    </head>
+  <style>
+    #wrapper{
+        width: 60%;
+        min-height: 560px;
+        margin: 0px auto;
+        width: 500px;
+        position: relative;
+    }
+    #wrapper h1{
+        font-size: 48px;
+        color: rgb(6, 106, 117);
+        padding: 2px 0 10px 0;
+        font-family: 'FranchiseRegular','Arial Narrow',Arial,sans-serif;
+        font-weight: bold;
+        text-align: center;
+        padding-bottom: 30px;
+    }
+    #wrapper p{
+        margin-bottom:15px;
+    }
+    #wrapper label{
+        color: rgb(64, 92, 96);
+        position: relative;
+    }
+    #wrapper input{
+        width: 92%;
+        margin-top: 4px;
+        padding: 10px 5px 10px 32px;
+    }
+    #register{
+        padding: 18px 6% 60px 6%;
+        background: rgb(247, 247, 247);
+        border: 1px solid rgba(147, 184, 189,0.8);
+        box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),    0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+        border-radius: 5px;
+    }
+  </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+var glogin=0;
+var gemail=0;
+var gpass=0;
+var grepass=0;
+
+$(document).ready(function(){
+   $("#pass").blur(function(){
+     var pass = $("#pass").val();
+     if ( pass.length <= 4 ){
+       gpass=0;
+       $("#htext").text("The password should contain more than 4 symbols.");
+       $(this).css("border", "1px solid red");
+     } else {
+        gpass = 1;
+        $("#htext").text("");
+        $(this).css("border", "1px solid lightgray");
+       }
+   });
+   $("#email").blur(function(){
+     var email = $("#email").val();
+     var atpos = email.indexOf("@");
+     var datpos = email.lastIndexOf(".");
+     gemail = 0;
+     if ( atpos <= 1 || datpos < atpos+2 || datpos+2 >= email.length){
+       $("#htext").text("Not valid e-mal address");
+       $(this).css("border", "1px solid red");
+     }else {
+       gemail = 1;
+       $("#htext").text("");
+       $(this).css("border", "1px solid lightgray");
+     }
+   });
+   $("#login").blur(function(){
+     var login = $("#login").val();
+     if ( login == "" || login.indexOf(' ') >= 0){
+       glogin = 1;
+       $("#htext").text("Login field cannot be empty and contain spece.");
+       $(this).css("border", "1px solid red");
+     }else {
+       glogin = 1;
+       $("#htext").text("");
+       $(this).css("border", "1px solid lightgray");
+     }
+   });
+});   //*ready
+
+function result() {
+  var login = $("#login").val();
+  var email = $("#email").val();
+  var pass = $("#pass").val();
+  if( glogin == 0 || gemail == 0 || gpass == 0 || grepass == 0){
+    $("#htext").text("Please check the data");
+    if ( glogin == 0 ){
+      $("#login").css("border", "1px solid red");
+    } else if ( gemail == 0 ){
+      $("#email").css("border", "1px solid red");
+    } else if ( gpass == 0 ){
+      $("#pass").css("border", "1px solid red");
+    } else {
+      $("#repass").css("border", "1px solid red");
+    }
+//    alert("Please fill all data correct.");
+  }
+  else {
+//    $("#htext").text("Thanks.");
+    alert("You seccesfuly registered: \nLogin - " + login + "\nE-mail - " + email + "\nPassword - " + pass);
+  }
+}
+
+function repasscheck(){
+  var pass = $("#pass").val();
+  var repass = $("#repass").val();
+  if (pass != repass){
+    grepass = 0;
+    $("#htext").text("Passwords should be the same.");
+    $("#repass").css("border", "1px solid red");
+  }  else {
+        grepass = 1;
+        $("#htext").text("");
+        $("#repass").css("border", "1px solid lightgray");
+    }
+}
+</script>
+
+    <body>
+        <div id="wrapper">
+            <div id="register" class="animate form">
+                <h1> Registration </h1>
+                <p id="htext" style="color: red;"><center></center></p>
+                <p>
+                    <label>Login</label>
+                    <input id="login" name="" type="text">
+                </p>
+                <p>
+                    <label> E-mail</label>
+                    <input id="email" name="" type="text">
+                </p>
+                <p>
+                    <label>Password </label>
+                    <input id="pass" name="" type="password">
+                </p>
+                <p>
+                    <label>Confirm Password </label>
+                    <input id="repass" name="" type="password" onblur="repasscheck()">
+                </p>
+                <input type="button" id="reg" value="Register" onclick="result()">
+            </div>
+        </div>
+    </body>
+</html>
